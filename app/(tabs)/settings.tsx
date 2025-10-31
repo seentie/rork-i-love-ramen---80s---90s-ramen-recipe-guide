@@ -34,7 +34,7 @@ export default function SettingsScreen() {
     return (
       <NoodleBackground>
         <View style={[styles.container, { paddingTop: insets.top }]}>
-        <View style={styles.header}>
+          <View style={styles.header}>
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => setShowPrivacy(false)}
@@ -147,7 +147,7 @@ export default function SettingsScreen() {
   return (
     <NoodleBackground>
       <View style={[styles.container, { paddingTop: insets.top }]}>
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>SETTINGS</Text>
           <Text style={styles.subtitle}>App Configuration & Info</Text>
@@ -332,7 +332,7 @@ export default function SettingsScreen() {
 
         <View style={styles.spacer} />
       </ScrollView>
-      </View>
+        </View>
     </NoodleBackground>
   );
 }

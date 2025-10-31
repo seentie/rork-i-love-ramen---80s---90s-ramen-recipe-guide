@@ -14,13 +14,18 @@ export default function NoodleBackground({ children }: NoodleBackgroundProps) {
   
   const noodles = useMemo(() => {
     const noodles = [];
-    const rows = Math.ceil(height / 40);
-    const cols = Math.ceil(width / 40);
+    const maxNoodles = Platform.OS === 'android' ? 30 : 50;
+    const spacing = Platform.OS === 'android' ? 60 : 40;
+    const rows = Math.min(Math.ceil(height / spacing), 10);
+    const cols = Math.min(Math.ceil(width / spacing), 8);
+    const totalNoodles = Math.min(rows * cols, maxNoodles);
     
-    for (let i = 0; i < rows * cols; i++) {
+    for (let i = 0; i < totalNoodles; i++) {
       const emoji = noodleEmojis[Math.floor(Math.random() * noodleEmojis.length)];
       const rotation = Math.random() * 360;
       const opacity = 0.4 + Math.random() * 0.3;
+      const col = i % cols;
+      const row = Math.floor(i / cols);
       
       noodles.push(
         <Text
@@ -30,8 +35,8 @@ export default function NoodleBackground({ children }: NoodleBackgroundProps) {
             {
               transform: [{ rotate: `${rotation}deg` }],
               opacity,
-              left: (i % cols) * 40 + Math.random() * 15,
-              top: Math.floor(i / cols) * 40 + Math.random() * 15,
+              left: col * spacing + Math.random() * 15,
+              top: row * spacing + Math.random() * 15,
             },
           ]}
         >
@@ -43,18 +48,17 @@ export default function NoodleBackground({ children }: NoodleBackgroundProps) {
   }, [width, height, noodleEmojis]);
 
   const noodleOutlines = useMemo(() => {
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' || Platform.OS === 'android') {
       return [];
     }
     const outlines = [];
-    const numOutlines = Math.floor((width * height) / 3000);
+    const numOutlines = Math.min(Math.floor((width * height) / 5000), 15);
     
     for (let i = 0; i < numOutlines; i++) {
-      const x = Math.random() * width;
-      const y = Math.random() * height;
+      const x = Math.random() * (width - 60);
+      const y = Math.random() * (height - 20);
       const opacity = 0.2 + Math.random() * 0.2;
       
-      // Wavy noodle path
       const pathData = `M 0,0 Q 10,${-5 + Math.random() * 10} 20,0 Q 30,${5 - Math.random() * 10} 40,0 Q 50,${-5 + Math.random() * 10} 60,0`;
       
       outlines.push(
